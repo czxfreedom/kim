@@ -39,7 +39,7 @@ func NewServerStartCmd(ctx context.Context, version string) *cobra.Command {
 			return RunServerStart(ctx, opts, version)
 		},
 	}
-	cmd.PersistentFlags().StringVarP(&opts.config, "config", "c", "./server/conf.yaml", "Config file")
+	cmd.PersistentFlags().StringVarP(&opts.config, "config", "c", "D:\\project\\kim\\services\\server\\conf.yaml", "Config file")
 	cmd.PersistentFlags().StringVarP(&opts.serviceName, "serviceName", "s", "chat", "defined a service name,option is login or chat")
 	return cmd
 }
@@ -83,14 +83,20 @@ func RunServerStart(ctx context.Context, opts *ServerStartOptions, version strin
 	r.Handle(wire.CommandChatTalkAck, chatHandler.DoTalkAck)
 	// group
 	groupHandler := handler.NewGroupHandler(groupService)
+	//创建群组
 	r.Handle(wire.CommandGroupCreate, groupHandler.DoCreate)
+	//加入群组
 	r.Handle(wire.CommandGroupJoin, groupHandler.DoJoin)
+	//退出群组
 	r.Handle(wire.CommandGroupQuit, groupHandler.DoQuit)
+	//查看群组
 	r.Handle(wire.CommandGroupDetail, groupHandler.DoDetail)
 
 	// offline
 	offlineHandler := handler.NewOfflineHandler(messageService)
+	//
 	r.Handle(wire.CommandOfflineIndex, offlineHandler.DoSyncIndex)
+	//
 	r.Handle(wire.CommandOfflineContent, offlineHandler.DoSyncContent)
 
 	rdb, err := conf.InitRedis(config.RedisAddrs, "")

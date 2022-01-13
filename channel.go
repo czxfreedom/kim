@@ -112,7 +112,7 @@ func (ch *ChannelImpl) Readloop(lst MessageListener) error {
 		return fmt.Errorf("channel has started")
 	}
 	for {
-		_ = ch.SetReadDeadline(time.Now().Add(ch.readwait))
+		_ = ch.SetDeadline(time.Now().Add(ch.writeWait))
 
 		frame, err := ch.ReadFrame()
 		if err != nil {
@@ -129,6 +129,7 @@ func (ch *ChannelImpl) Readloop(lst MessageListener) error {
 			}).Trace("recv a ping; resp with a pong")
 
 			_ = ch.WriteFrame(OpPong, nil)
+			ch.Flush()
 			continue
 		}
 		payload := frame.GetPayload()

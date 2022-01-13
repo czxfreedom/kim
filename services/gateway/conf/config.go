@@ -13,19 +13,19 @@ import (
 
 // Config Config
 type Config struct {
-	ServiceID       string
-	ServiceName     string `default:"wgateway"`
-	Listen          string `default:":8000"`
-	PublicAddress   string
-	PublicPort      int `default:"8000"`
-	Tags            []string
-	Domain          string
-	ConsulURL       string
-	MonitorPort     int `default:"8001"`
-	AppSecret       string
-	LogLevel        string `default:"DEBUG"`
-	MessageGPool    int    `default:"10000"`
-	ConnectionGPool int    `default:"15000"`
+	ServiceID       string   //serverId
+	ServiceName     string   `default:"wgateway"` //服务名
+	Listen          string   `default:":8000"`    //监听端口
+	PublicAddress   string   //公共地址
+	PublicPort      int      `default:"8000"` //公共端口
+	Tags            []string //目标
+	Domain          string   //域名
+	ConsulURL       string   //consulUrl
+	MonitorPort     int      `default:"8001"` //监控端口
+	AppSecret       string   //校验码
+	LogLevel        string   `default:"DEBUG"`
+	MessageGPool    int      `default:"10000"` //消息池
+	ConnectionGPool int      `default:"15000"` //连接池
 }
 
 func (c Config) String() string {

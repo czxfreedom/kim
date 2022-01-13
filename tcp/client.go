@@ -77,6 +77,7 @@ func (c *Client) Connect(addr string) error {
 
 	if c.options.Heartbeat > 0 {
 		go func() {
+			//开启心跳定时器
 			err := c.heartbealoop()
 			if err != nil {
 				logger.WithField("module", "tcp.client").Warn("heartbealoop stopped - ", err)

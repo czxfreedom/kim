@@ -118,7 +118,7 @@ func (s *DefaultServer) Start() error {
 			log.Warn(err)
 			continue
 		}
-
+		//链接客户端
 		go s.connHandler(rawconn, mgpool)
 
 		if atomic.LoadInt32(&s.quit) == 1 {
@@ -167,6 +167,7 @@ func (s *DefaultServer) connHandler(rawconn net.Conn, gpool *ants.Pool) {
 	defer gaugeWithLabel.Dec()
 
 	logger.Infof("accept channel - ID: %s RemoteAddr: %s", channel.ID(), channel.RemoteAddr())
+	//监听客户端发送过来的请求
 	err = channel.Readloop(s.MessageListener)
 	if err != nil {
 		logger.Info(err)

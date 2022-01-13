@@ -16,7 +16,8 @@ type Settings struct {
 }
 
 func Init(settings Settings) error {
-
+	logrus.SetReportCaller(true)
+	std.SetReportCaller(true)
 	if settings.Level == "" {
 		settings.Level = "debug"
 	}

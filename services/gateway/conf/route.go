@@ -8,8 +8,8 @@ import (
 )
 
 type Zone struct {
-	ID     string
-	Weight int
+	ID     string //ID
+	Weight int    //权重
 }
 
 type Route struct {

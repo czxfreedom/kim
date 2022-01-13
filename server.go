@@ -7,10 +7,10 @@ import (
 )
 
 const (
-	DefaultReadWait  = time.Minute * 3
-	DefaultWriteWait = time.Second * 10
+	DefaultReadWait  = time.Second * 60
+	DefaultWriteWait = time.Second * 60
 	DefaultLoginWait = time.Second * 10
-	DefaultHeartbeat = time.Second * 55
+	DefaultHeartbeat = time.Second * 10
 )
 
 const (

@@ -39,8 +39,8 @@ func NewServerStartCmd(ctx context.Context, version string) *cobra.Command {
 			return RunServerStart(ctx, opts, version)
 		},
 	}
-	cmd.PersistentFlags().StringVarP(&opts.config, "config", "c", "./gateway/conf.yaml", "Config file")
-	cmd.PersistentFlags().StringVarP(&opts.route, "route", "r", "./gateway/route.json", "route file")
+	cmd.PersistentFlags().StringVarP(&opts.config, "config", "c", "D:\\project\\kim\\services\\gateway\\conf.yaml", "Config file")
+	cmd.PersistentFlags().StringVarP(&opts.route, "route", "r", "D:\\project\\kim\\services\\gateway\\route.json", "route file")
 	cmd.PersistentFlags().StringVarP(&opts.protocol, "protocol", "p", "ws", "protocol of ws or tcp")
 	return cmd
 }
@@ -82,13 +82,15 @@ func RunServerStart(ctx context.Context, opts *ServerStartOptions, version strin
 	} else if opts.protocol == "tcp" {
 		srv = tcp.NewServer(config.Listen, service, srvOpts...)
 	}
-
+	//设置读超时为2分钟
 	srv.SetReadWait(time.Minute * 2)
+	//设置监听Handler
 	srv.SetAcceptor(handler)
 	srv.SetMessageListener(handler)
 	srv.SetStateListener(handler)
-
+	//网关连接了 登录服务 和 聊天服务
 	_ = container.Init(srv, wire.SNChat, wire.SNLogin)
+	//设置监控
 	container.EnableMonitor(fmt.Sprintf(":%d", config.MonitorPort))
 
 	ns, err := consul.NewNaming(config.ConsulURL)

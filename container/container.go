@@ -337,7 +337,7 @@ func readLoop(cli kim.Client) error {
 			continue
 		}
 		buf := bytes.NewBuffer(frame.GetPayload())
-
+		//获取到server的发送过来的包
 		packet, err := pkt.MustReadLogicPkt(buf)
 		if err != nil {
 			log.Info(err)
